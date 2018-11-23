@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.serviceform.serviceform.serviceform">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SystemAdministrator" />
+        <activity android:name=".files.Files_Admin" />
+        <activity android:name=".files.Files_Manager" />
+        <activity android:name=".ListUser" />
+        <activity android:name=".memory.Memory_Admin" />
+        <activity android:name=".process.Process_Admin" />
+        <activity android:name=".process.Process_Manager" />
+        <activity android:name=".state.State_Admin" />
+        <activity android:name=".state.State_Manager" />
+        <activity android:name=".Tickets" />
+        <activity android:name=".traffic.Traffic_Admin" />
+        <activity android:name=".traffic.Traffic_Manager" />
+        <activity android:name=".Update" />
+        <activity android:name=".memory.Memory_Manager" />
+        <activity android:name=".Technical" />
+        <activity android:name=".Support"></activity>
+    </application>
+
+</manifest>

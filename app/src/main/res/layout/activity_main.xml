@@ -1,0 +1,95 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context=".MainActivity">
+
+
+    <EditText
+        android:id="@+id/txtUserName"
+        android:layout_width="269dp"
+        android:layout_height="65dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="115dp"
+        android:layout_marginLeft="115dp"
+        android:layout_marginTop="144dp"
+        android:textColor="#2980b9"
+        android:textColorHint="@color/colorPrimaryDark" />
+
+    <EditText
+        android:id="@+id/txtPassword"
+        android:layout_width="266dp"
+        android:layout_height="59dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="118dp"
+        android:layout_marginLeft="118dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:textColor="#2980b9" />
+
+    <Button
+        android:id="@+id/btnAccept"
+        android:layout_width="112dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btnCancel"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="67dp"
+        android:layout_marginLeft="67dp"
+        android:layout_marginTop="0dp"
+        android:text="Aceptar"
+        android:textColor="#2980b9"
+        android:textColorLink="@color/colorPrimaryDark" />
+
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="54dp"
+        android:layout_marginRight="54dp"
+        android:layout_marginBottom="82dp"
+        android:text="Cancelar"
+        android:textColor="#2980b9" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="57dp"
+        android:gravity="center_horizontal"
+        android:text="Service Controller"
+        android:textColor="#2980b9"
+        android:textSize="25sp"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="165dp"
+        android:text="Username:"
+        android:textColor="#2980b9"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="Password:"
+        android:textColor="#2980b9"
+        android:textSize="20sp" />
+
+
+</RelativeLayout>

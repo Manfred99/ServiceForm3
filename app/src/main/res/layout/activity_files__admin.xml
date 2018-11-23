@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".files.Files_Admin">
+
+    <Spinner
+        android:id="@+id/spinnerTemp"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="45dp"
+        android:gravity="center"
+        android:textColor="#2980b9" />
+
+
+
+
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+
+
+        android:layout_alignStart="@+id/create"
+        android:layout_marginBottom="197dp"
+        android:gravity="center_horizontal"
+        android:text="Delete"
+        android:textColor="#2980b9" />
+
+    <Button
+        android:id="@+id/List"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/delete"
+        android:layout_marginStart="121dp"
+        android:layout_marginTop="-199dp"
+        android:gravity="center_horizontal"
+        android:text="Refresh"
+        android:textColor="#2980b9" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="245dp"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+
+
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:inputType="textPersonName"
+        android:singleLine="true"
+        android:textColor="#2980b9" />
+
+    <Button
+        android:id="@+id/create"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+
+        android:layout_alignStart="@+id/List"
+        android:layout_below="@+id/modify"
+        android:gravity="center_horizontal"
+        android:text="Create"
+        android:textColor="#2980b9" />
+
+    <Button
+        android:id="@+id/modify"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+
+        android:layout_alignStart="@+id/delete"
+        android:layout_below="@+id/List"
+        android:gravity="center_horizontal"
+        android:text="Modify"
+        android:textColor="#2980b9" />
+
+    <Button
+        android:id="@+id/permits"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+
+        android:layout_alignStart="@+id/delete"
+        android:layout_below="@+id/listTemp"
+        android:gravity="center_horizontal"
+        android:text="Permits"
+        android:textColor="#2980b9" />
+
+    <Spinner
+        android:id="@+id/spinnerPermits"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:textColor="#2980b9" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="18dp"
+        android:gravity="center_horizontal"
+        android:text="Files"
+        android:textColor="#2980b9"
+        android:textSize="25sp"
+        android:textStyle="italic" />
+
+
+    <ListView
+        android:id="@+id/listTemp"
+        android:layout_width="360dp"
+        android:layout_height="107dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/spinnerTemp"
+        android:contentDescription="@string/List"
+        android:gravity="center"
+        android:textColor="#2980b9" />
+
+
+</RelativeLayout>

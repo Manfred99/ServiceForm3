@@ -1,0 +1,109 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SystemAdministrator"
+    >
+
+ <ImageButton
+     android:id="@+id/imageButtonFiles"
+     android:layout_width="52dp"
+     android:layout_height="42dp"
+     android:layout_alignParentStart="true"
+     android:layout_alignParentLeft="true"
+     android:layout_alignParentTop="true"
+     android:layout_marginStart="168dp"
+     android:layout_marginLeft="168dp"
+     android:layout_marginTop="134dp"
+     android:background="@android:color/transparent"
+     android:contentDescription="@string/files"
+     android:gravity="center"
+     app:srcCompat="@mipmap/files"
+     tools:layout_editor_absoluteX="165dp"
+     tools:layout_editor_absoluteY="147dp" />
+
+ <ImageButton
+     android:id="@+id/imageButtonProcess"
+     android:layout_width="47dp"
+     android:layout_height="wrap_content"
+     android:layout_alignParentStart="true"
+     android:layout_alignParentLeft="true"
+     android:layout_alignParentTop="true"
+     android:layout_marginStart="169dp"
+     android:layout_marginLeft="169dp"
+     android:layout_marginTop="204dp"
+
+     android:background="@android:color/transparent"
+     android:contentDescription="@string/process"
+     android:gravity="center"
+     app:srcCompat="@mipmap/process"
+     tools:layout_editor_absoluteX="165dp"
+     tools:layout_editor_absoluteY="216dp" />
+
+ <ImageButton
+     android:id="@+id/imageButtonMemory"
+     android:layout_width="54dp"
+     android:layout_height="36dp"
+     android:layout_alignParentStart="true"
+     android:layout_alignParentLeft="true"
+     android:layout_alignParentTop="true"
+     android:layout_marginStart="164dp"
+     android:layout_marginLeft="164dp"
+     android:layout_marginTop="403dp"
+     android:background="@android:color/transparent"
+     android:contentDescription="@string/memory"
+     android:gravity="center"
+     app:srcCompat="@mipmap/memory"
+     tools:layout_editor_absoluteX="165dp"
+     tools:layout_editor_absoluteY="418dp" />
+
+ <ImageButton
+     android:id="@+id/imageButtondrState"
+     android:layout_width="52dp"
+     android:layout_height="42dp"
+     android:layout_alignParentStart="true"
+     android:layout_alignParentLeft="true"
+     android:layout_alignParentTop="true"
+     android:layout_marginStart="165dp"
+     android:layout_marginLeft="165dp"
+     android:layout_marginTop="335dp"
+     android:background="@android:color/transparent"
+     android:contentDescription="@string/state"
+     android:gravity="center"
+     app:srcCompat="@mipmap/state"
+     tools:layout_editor_absoluteX="165dp"
+     tools:layout_editor_absoluteY="286dp" />
+
+ <ImageButton
+     android:id="@+id/imageButtonTraffic"
+     android:layout_width="52dp"
+     android:layout_height="42dp"
+     android:layout_alignParentStart="true"
+     android:layout_alignParentLeft="true"
+     android:layout_alignParentTop="true"
+     android:layout_marginStart="164dp"
+     android:layout_marginLeft="164dp"
+     android:layout_marginTop="263dp"
+     android:background="@android:color/transparent"
+     android:contentDescription="@string/traffic"
+     android:gravity="center"
+     app:srcCompat="@mipmap/traffic"
+     tools:layout_editor_absoluteX="165dp"
+     tools:layout_editor_absoluteY="356dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:gravity="center_horizontal"
+        android:text="Server Controlling"
+        android:textColor="#2980b9"
+        android:textSize="25sp"
+        android:textStyle="italic" />
+
+</RelativeLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Technical">
+
+    <Button
+        android:id="@+id/btn_Tickets"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+
+        android:gravity="center_horizontal"
+        android:text="Tickects"
+        android:textColor="#2980b9" />
+
+    <Button
+        android:id="@+id/btn_Users"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="164dp"
+        android:gravity="center_horizontal"
+        android:text="Users"
+        android:textColor="#2980b9" />
+
+    <Button
+        android:id="@+id/btn_Update"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="242dp"
+        android:gravity="center_horizontal"
+        android:text="Updates"
+        android:textColor="#2980b9" />
+
+    <Button
+        android:id="@+id/btn_Support"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="177dp"
+        android:gravity="center_horizontal"
+        android:text="support"
+        android:textColor="#2980b9" />
+</RelativeLayout>

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Server Controlling</string>
+    <string name="Service_Form">Service_Form</string>
+    <string name="files">files</string>
+    <string name="process">process</string>
+    <string name="state">state</string>
+    <string name="traffic">traffic</string>
+    <string name="memory">memory</string>
+    <string name="title">title</string>
+    <string name="List">List :</string>
+
+</resources>

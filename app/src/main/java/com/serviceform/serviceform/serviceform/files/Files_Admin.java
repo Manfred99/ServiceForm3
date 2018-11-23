@@ -51,7 +51,7 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
 
         try {
             fillExpandibleList();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -113,7 +113,7 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
             public void onClick(View v) {
                 try {
                     fillExpandibleList();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -190,7 +190,7 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
         });
             }
 
-    public void fillExpandibleList() throws IOException {
+    public void fillExpandibleList() throws Exception {
         final List<FilePermitsName> files;
         SshClient sshClient = new SshClient();
         final FilePermitsName filePermitsName2 = new FilePermitsName();

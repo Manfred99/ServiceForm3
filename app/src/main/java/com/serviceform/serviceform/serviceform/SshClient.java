@@ -2,6 +2,7 @@ package com.serviceform.serviceform.serviceform;
 
 import android.os.AsyncTask;
 
+import com.serviceform.serviceform.serviceform.files.FileInfo;
 import com.serviceform.serviceform.serviceform.files.FilePermitsName;
 
 import ch.ethz.ssh2.Connection;
@@ -15,6 +16,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class SshClient {
      ExecuteCommand executeCommand;
@@ -52,69 +54,38 @@ public class SshClient {
 
 
 
-    public List<FilePermitsName> listFiles_Files(String userName, String password , String host, String path ) throws Exception {
+    public List<FileInfo> listFiles_Files(String userName, String password , String host, String path ) throws Exception {
         System.out.println("pasa4");
         SshClient sshClient = new SshClient();
         List<String> actual = listFiles(path,userName, password, host);
-        List<FilePermitsName> files = new ArrayList<>();
-      Boolean flat1= false;
-      Boolean flat2= false;
-        String processName = null;
-        String nameFiles=null;
-        System.out.println("pasa5");
-        int v=0;
-        for (String s : actual) {
-            System.out.println(s);
+        List<FileInfo> files = new ArrayList<>();
+        String outputFromServer = actual.get(0);
+        String lineOfOutPut = "";
+        StringTokenizer stLine = new StringTokenizer(outputFromServer, "\n");
+        while (stLine.hasMoreTokens()){
+            lineOfOutPut = stLine.nextToken();
 
-            String[] datos = s.split(" ");
-
-            int i = 0;
-            int cont=12;
-            for (String item : datos) {
-
-                if ((i == 0)) {
-
-                    processName= item;
-                    System.out.println(item+"ProcessName");
-                    flat1=true;
-                    System.out.println(flat2+"falt1");
+            StringTokenizer stObjects = new StringTokenizer(lineOfOutPut, " ");
+            int numberSpace = 0;
+            FileInfo fileInfo;
+            String chainOfPermits="";
+            String userUsed="";
+            String nameOfFile="";
+            while(stObjects.hasMoreTokens()){
+                switch (numberSpace){
+                    case 0: chainOfPermits=stObjects.nextToken(); break;
+                    case 2: userUsed=stObjects.nextToken(); break;
+                    case 8: nameOfFile=stObjects.nextToken(); break;
+                    default: stObjects.nextToken(); break;
                 }
-                if ((i== 12)) {
-
-                    nameFiles= item;
-                    System.out.println(item+"Name Files");
-                    flat2= true;
-                    System.out.println(flat2+"falt2");
-
-                }
-
-                i=i+1;
-                }
-
-                if(flat1!=false && flat2!=false){
-                    System.out.println("Pasa?");
-                    FilePermitsName filePermitsName;
-                    filePermitsName = new FilePermitsName(processName,nameFiles);
-                    System.out.println(filePermitsName.toString()+"Es esto?");
-
-                    files.add(filePermitsName);
-                    flat1=false;
-                    flat2=false;
-                }
-
-
-
+                numberSpace++;
             }
-
-
-
-
-        for (   FilePermitsName d : files) {
-
-            System.out.println(d.toString());
-
+            fileInfo = new FileInfo(chainOfPermits,userUsed,nameOfFile);
+            if(nameOfFile.charAt(0)!='.')
+                files.add(fileInfo);
         }
-        int r = 0;
+
+
         return files;
     }
 

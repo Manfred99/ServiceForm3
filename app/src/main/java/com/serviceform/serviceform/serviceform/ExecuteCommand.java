@@ -69,22 +69,13 @@ public class ExecuteCommand {
     public static void executeCommandSSH2(String pUser, String pPass, String pHost,
                                        int pPort, String pComando) throws Exception {
         try{
-            JSch jsch=new JSch();
-
+        JSch jsch=new JSch();
         String host=null;
-//      if(arg.length>0){
-//        host=arg[0];
-//      }
-//      else{
-        //ServerCredentials serverCredentials = new ServerCredentials();
         host= pUser+"@"+pHost; // enter username and ipaddress for machine you need to connect
-//      }
         String user=host.substring(0, host.indexOf('@'));
         host=host.substring(host.indexOf('@')+1);
 
         Session session=jsch.getSession(user, host, 22);
-
-        // username and password will be given via UserInfo interface.
         UserInfo ui=new MyUserInfo();
         session.setUserInfo(ui);
         session.connect();

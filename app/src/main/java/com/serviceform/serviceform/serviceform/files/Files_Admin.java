@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.serviceform.serviceform.serviceform.R.id.editText;
 
@@ -28,13 +30,14 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
     Spinner spinner_Permits;
     private List<String> servers;
     private List<String> permits;
-    private static String nameSelect;
-    private static String processSelect;
+    private static String chainOfPermits;
+    private static String nameOfFile;
+    private static String userUsed;
     public static String nameServer;
     public static String namePermits;
     Credentials_DEVServer credentials_devServer;
     Credentials_QATServer credentialsQatServer;
-
+    List<Map<String, String>> interestsList;
 
 
 
@@ -50,6 +53,7 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
         editNameFile = (EditText) findViewById(editText);
 
         try {
+            interestsList = new ArrayList<Map<String,String>>();
             fillExpandibleList();
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,10 +97,10 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
                 try {
                     if (nameServer.equals("DEV_FormServerControlling")) {
 
-                        sshClient.deleteFile(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(),nameSelect);
+                        sshClient.deleteFile(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(),chainOfPermits);
 
                     } else if(nameServer.equals("QAT_UATFormServerControllingDataBase")) {
-                        sshClient.deleteFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(),nameSelect);
+                        sshClient.deleteFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(),chainOfPermits);
 
                     }
 
@@ -151,10 +155,10 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
                 try {
                     if (nameServer.equals("DEV_FormServerControlling")) {
 
-                        sshClient.modifyFile(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(),editName,nameSelect);
+                        sshClient.modifyFile(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(),editName,chainOfPermits);
 
                     } else if(nameServer.equals("QAT_UATFormServerControllingDataBase")) {
-                        sshClient.modifyFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(),editName,nameSelect);
+                        sshClient.modifyFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(),editName,chainOfPermits);
 
                     }
 
@@ -176,10 +180,10 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
                 try {
                     if (nameServer.equals("DEV_FormServerControlling")) {
 
-                        sshClient.permitsFile(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(),namePermits,nameSelect);
+                        sshClient.permitsFile(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(),namePermits,chainOfPermits);
 
                     } else if(nameServer.equals("QAT_UATFormServerControllingDataBase")) {
-                        sshClient.permitsFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(),namePermits,nameSelect);
+                        sshClient.permitsFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(),namePermits,chainOfPermits);
 
                     }
 
@@ -191,7 +195,7 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
             }
 
     public void fillExpandibleList() throws Exception {
-        final List<FilePermitsName> files;
+        final List<FileInfo> files;
         SshClient sshClient = new SshClient();
         final FilePermitsName filePermitsName2 = new FilePermitsName();
         if (nameServer.equals("DEV_FormServerControlling")) {
@@ -199,27 +203,50 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
             files = (ArrayList) sshClient.listFiles_Files(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(), credentials_devServer.SERVIDOR_DEV.getPatch());
         } else {
             files = (ArrayList) sshClient.listFiles_Files(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(), credentialsQatServer.SERVIDOR_QAT.getPatch());
-    }
+        }
 
        int i=0;
 
 
-        final ArrayAdapter<FilePermitsName> simpleAdpterForListView = new ArrayAdapter<FilePermitsName>(Files_Admin.this, android.R.layout.simple_list_item_1,files);
+        final ArrayAdapter<FileInfo> simpleAdpterForListView = new ArrayAdapter<FileInfo>(Files_Admin.this, android.R.layout.simple_list_item_1,files);
         ListView lv = (ListView) findViewById(R.id.listTemp);
         lv.setAdapter(simpleAdpterForListView);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-               FilePermitsName f=  files.get(position);
-               nameSelect=f.getNameFile();
-               processSelect=f.getProcess();
-                Toast.makeText(Files_Admin.this,"Seleccionado"+f.getProcess()+""+f.getNameFile()+"----"+nameSelect+""+processSelect,Toast.LENGTH_LONG).show();
+                FileInfo f=  files.get(position);
+               chainOfPermits=f.getChainOfPermits();
+               userUsed=f.getUserUsed();
+               nameOfFile=f.getNameOfFile();
+                Toast.makeText(Files_Admin.this,"Seleccionado a "+nameOfFile+"con los permisos: "+chainOfPermits+
+                        "\n Con el usuario: "+userUsed,Toast.LENGTH_LONG).show();
 
             }
         });
     }
+    private void fillList() throws Exception{
+        final List<FileInfo> files;
+        SshClient sshClient = new SshClient();
+        final FilePermitsName filePermitsName2 = new FilePermitsName();
+        if (nameServer.equals("DEV_FormServerControlling")) {
 
+            files = (ArrayList) sshClient.listFiles_Files(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(), credentials_devServer.SERVIDOR_DEV.getPatch());
+        } else {
+            files = (ArrayList) sshClient.listFiles_Files(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(), credentialsQatServer.SERVIDOR_QAT.getPatch());
+        }
+        for(int i =0; i<files.size(); i++){
+            interestsList.add(createInterest("interest", files.get(i).getChainOfPermits()+" "
+            +files.get(i).getUserUsed()+" "+files.get(i).getNameOfFile()));
+        }
+        SimpleAdapter simpleAdpterForListView =
+                new SimpleAdapter(this, interestsList, android.R.layout.simple_list_item_checked,
+                        new String[] {"interest"}, new int[] {android.R.id.text1});
+
+        ListView lv = (ListView) findViewById(R.id.listTemp);
+
+        lv.setAdapter(simpleAdpterForListView);
+    }
     private HashMap<String, String> createInterest(String key, String name) { HashMap<String, String> interest = new HashMap<String, String>();
         interest.put(key, name);
         return interest;

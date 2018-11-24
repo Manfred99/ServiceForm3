@@ -2,7 +2,7 @@ package com.serviceform.serviceform.serviceform;
 
 public enum Credentials_DEVServer {
 
-    SERVIDOR_DEV("dfonse","darkside9030","192.168.1.9","Documents");
+    SERVIDOR_DEV("scdv4001","SCDV4001DEV","192.168.1.13","/home/scdv4001/Documents");
 
     private final String userName;
     private final String  password;

@@ -114,6 +114,7 @@ public class SshClient {
             System.out.println(d.toString());
 
         }
+        int r = 0;
         return files;
     }
 

@@ -20,6 +20,7 @@ import ch.ethz.ssh2.StreamGobbler;
 public class ExecuteCommand {
 
     public static List<String> result = new ArrayList<>();
+    public static String serverOutput = null;
     private static Connection connectTo(String host, String userName, String password) throws IOException {
         Connection connection = new Connection(host);
         connection.connect();
@@ -66,40 +67,93 @@ public class ExecuteCommand {
         }// end try
     }// EjecutarSSH
     public static void executeCommandSSH2(String pUser, String pPass, String pHost,
-                                         int pPort, String pComando) throws Exception {
-        Connection connection = connectTo(pHost,pUser,pPass);
-        connection.connect();
-        String command = pComando;
+                                       int pPort, String pComando) throws Exception {
+        try{
+            JSch jsch=new JSch();
 
-        ch.ethz.ssh2.Session session = null;
-        System.out.println("pasa3");
+        String host=null;
+//      if(arg.length>0){
+//        host=arg[0];
+//      }
+//      else{
+        //ServerCredentials serverCredentials = new ServerCredentials();
+        host= pUser+"@"+pHost; // enter username and ipaddress for machine you need to connect
+//      }
+        String user=host.substring(0, host.indexOf('@'));
+        host=host.substring(host.indexOf('@')+1);
 
-        try {
-            session = connection.openSession();
-            session.execCommand(command);
-            InputStream stdout = new StreamGobbler(session.getStdout());
-            BufferedReader br = new BufferedReader(new InputStreamReader(stdout));
-            try {
+        Session session=jsch.getSession(user, host, 22);
 
-                String line = br.readLine();
-                while (line != null) {
-                    result.add(line);
-                    line = br.readLine();
-                }
-            } catch (IOException e) {
-                System.out.println("I/O Error getting string: ");
-                throw new IOException(e);
-            } finally {
-                if (session != null) {
-                    session.close();
-                }
+        // username and password will be given via UserInfo interface.
+        UserInfo ui=new MyUserInfo();
+        session.setUserInfo(ui);
+        session.connect();
+
+        String command=  pComando; // enter any command you need to execute
+
+        Channel channel=session.openChannel("exec");
+        ((ChannelExec)channel).setCommand(command);
+
+
+        channel.setInputStream(null);
+
+        ((ChannelExec)channel).setErrStream(System.err);
+
+        InputStream in=channel.getInputStream();
+
+        channel.connect();
+
+        byte[] tmp=new byte[1024];
+        while(true){
+            while(in.available()>0){
+                int i=in.read(tmp, 0, 1024);
+                if(i<0)break;
+                serverOutput = new String(tmp, 0, i);
+                result.add(serverOutput);
+                System.out.print(new String(tmp, 0, i));
             }
-
-
-        } catch (IOException e) {
-            System.out.println("I/O Error getting string: ");
+            if(channel.isClosed()){
+                System.out.println("exit-status: "+channel.getExitStatus());
+                break;
+            }
+            try{Thread.sleep(1000);}catch(Exception ee){}
         }
 
+        channel.disconnect();
+        session.disconnect();
+    }
+        catch(Exception e){
+        System.out.println(e);
+    }
+}
+
+public static class MyUserInfo implements UserInfo {
+    public String getPassword() {
+        return passwd;
+    }
+
+    public boolean promptYesNo(String str) {
+        str = "Yes";
+        return true;
+    }
+
+    String passwd;
+
+    public String getPassphrase() {
+        return null;
+    }
+
+    public boolean promptPassphrase(String message) {
+        return true;
+    }
+
+    public boolean promptPassword(String message) {
+        passwd = "SCDV4001DEV"; // enter the password for the machine you want to connect.
+        return true;
+    }
+
+    public void showMessage(String message) {
 
     }
+}
 }

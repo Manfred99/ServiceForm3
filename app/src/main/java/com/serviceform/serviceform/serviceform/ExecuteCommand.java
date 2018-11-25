@@ -66,6 +66,38 @@ public class ExecuteCommand {
                 session.disconnect();
         }// end try
     }// EjecutarSSH
+    public static void executeCommandSSH3(String pUser, String pPass, String pHost,
+                                          int pPort, String pComando){
+        try{
+        JSch jsch=new JSch();
+        String host=null;
+        host= pUser+"@"+pHost; // enter username and ipaddress for machine you need to connect
+        String user=host.substring(0, host.indexOf('@'));
+        host=host.substring(host.indexOf('@')+1);
+
+        Session session=jsch.getSession(user, host, 22);
+        UserInfo ui=new MyUserInfo();
+        session.setUserInfo(ui);
+        session.connect();
+
+        String command=  pComando; // enter any command you need to execute
+
+        Channel channel=session.openChannel("exec");
+        ((ChannelExec)channel).setCommand(command);
+            channel.setInputStream(null);
+
+            ((ChannelExec)channel).setErrStream(System.err);
+
+            InputStream in=channel.getInputStream();
+
+            channel.connect();
+            channel.disconnect();
+            session.disconnect();
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }
     public static void executeCommandSSH2(String pUser, String pPass, String pHost,
                                        int pPort, String pComando) throws Exception {
         try{

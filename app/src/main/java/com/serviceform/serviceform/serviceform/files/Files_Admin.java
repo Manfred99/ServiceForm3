@@ -1,6 +1,7 @@
 package com.serviceform.serviceform.serviceform.files;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,13 +29,15 @@ import static com.serviceform.serviceform.serviceform.R.id.editText;
 public class Files_Admin extends Activity implements AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
     Spinner spinner;
     Spinner spinner_Permits;
+    String itemSelectedInterests="";
     private List<String> servers;
     private List<String> permits;
+    List<FileInfo> files;
     private static String chainOfPermits;
     private static String nameOfFile;
     private static String userUsed;
     public static String nameServer;
-    public static String namePermits;
+    public static String namePermits="";
     Credentials_DEVServer credentials_devServer;
     Credentials_QATServer credentialsQatServer;
     List<Map<String, String>> interestsList;
@@ -52,13 +55,35 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
         final EditText editNameFile;
         editNameFile = (EditText) findViewById(editText);
 
-        try {
-            interestsList = new ArrayList<Map<String,String>>();
-            fillExpandibleList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
+            interestsList = new ArrayList<Map<String,String>>();
+            fillList();
+
+        final ListView listView = findViewById(R.id.listTemp);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String message = "";
+                message+=listView.getItemAtPosition(position).toString();
+                //Toast.makeText(Files_Admin.this, "Has seleccionado UNOOOO: "+message, Toast.LENGTH_SHORT).show();
+                itemSelectedInterests="";
+                int startPosition = 29;
+                while(startPosition<message.length()-1){
+                    itemSelectedInterests+=message.charAt(startPosition);
+                    startPosition++;
+                }
+                /**
+                String word="";
+                int i = 1;
+                while(i<itemSelectedInterests.length()){
+                    word+=itemSelectedInterests.charAt(i);
+                    i++;
+                }
+                itemSelectedInterests = word;
+                 **/
+                Toast.makeText(Files_Admin.this, "Has seleccionado: "+itemSelectedInterests, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         spinner = (Spinner) findViewById(R.id.spinnerTemp);
 
@@ -85,7 +110,10 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
         spinner_Permits.setAdapter(dataAdapter_Permits);
 
 
-
+/**
+ * Intent intent = new Intent(MainActivity.this, SystemAdministrator.class);
+ * startActivity(intent);
+ */
  final Button button = findViewById(R.id.delete);
         final Button button_List = findViewById(R.id.List);
         final Button button_create = findViewById(R.id.create);
@@ -95,13 +123,20 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
             @Override
             public void onClick(View v) {
                 try {
-                    if (nameServer.equals("DEV_FormServerControlling")) {
+                    if(!itemSelectedInterests.equals("")){
+                        if (nameServer.equals("DEV_FormServerControlling")) {
 
-                        sshClient.deleteFile(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(),chainOfPermits);
+                            sshClient.deleteFile(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(),itemSelectedInterests, credentials_devServer.SERVIDOR_DEV.getPatch());
 
-                    } else if(nameServer.equals("QAT_UATFormServerControllingDataBase")) {
-                        sshClient.deleteFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(),chainOfPermits);
+                        } else if(nameServer.equals("QAT_UATFormServerControllingDataBase")) {
+                            sshClient.deleteFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(),itemSelectedInterests,  credentialsQatServer.SERVIDOR_QAT.getPatch());
 
+                        }
+                        fillList();
+                        Intent intent = new Intent(Files_Admin.this, Files_Admin.class);
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(Files_Admin.this, "You have to select a file of the list", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (IOException e) {
@@ -116,7 +151,9 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
             @Override
             public void onClick(View v) {
                 try {
-                    fillExpandibleList();
+                    fillList();
+                     Intent intent = new Intent(Files_Admin.this, Files_Admin.class);
+                     startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -129,21 +166,22 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
             @Override
             public void onClick(View v) {
                 String editName = editNameFile.getText().toString();
-                try {
+                if(!editName.equals("")){
                     if (nameServer.equals("DEV_FormServerControlling")) {
 
-                        sshClient.createFile(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(),editName);
+                        sshClient.createFile(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(), editName, credentials_devServer.SERVIDOR_DEV.getPatch());
 
-                    } else if(nameServer.equals("QAT_UATFormServerControllingDataBase")) {
-                        sshClient.createFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(),editName);
+                    } else if (nameServer.equals("QAT_UATFormServerControllingDataBase")) {
+                        sshClient.createFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(), editName, credentialsQatServer.SERVIDOR_QAT.getPatch());
 
                     }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    fillList();
+                    Intent intent = new Intent(Files_Admin.this, Files_Admin.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(Files_Admin.this, "You have to enter a name of the new file", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
@@ -153,14 +191,23 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
             public void onClick(View v) {
                 String editName = editNameFile.getText().toString();
                 try {
-                    if (nameServer.equals("DEV_FormServerControlling")) {
+                    if(!editName.equals("")&&!itemSelectedInterests.equals("")){
+                        if (nameServer.equals("DEV_FormServerControlling")) {
 
-                        sshClient.modifyFile(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(),editName,chainOfPermits);
+                            sshClient.modifyFile(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(),editName,itemSelectedInterests,credentials_devServer.SERVIDOR_DEV.getPatch());
 
-                    } else if(nameServer.equals("QAT_UATFormServerControllingDataBase")) {
-                        sshClient.modifyFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(),editName,chainOfPermits);
+                        } else if(nameServer.equals("QAT_UATFormServerControllingDataBase")) {
+                            sshClient.modifyFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(),editName,itemSelectedInterests,credentialsQatServer.SERVIDOR_QAT.getPatch());
 
+                        }
+                        fillList();
+                        Intent intent = new Intent(Files_Admin.this, Files_Admin.class);
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(Files_Admin.this, "You have to select a file of the list or\n" +
+                                "you have to enter a name of the new file", Toast.LENGTH_SHORT).show();
                     }
+
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -175,65 +222,52 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
             public void onClick(View v)  {
                  namePermits = spinner_Permits.getSelectedItem().toString();
                 Toast.makeText(Files_Admin.this,"Seleccionado"+namePermits,Toast.LENGTH_LONG).show();
+                if(!namePermits.equals("")&&!itemSelectedInterests.equals("")){
+                    try {
+                        if (nameServer.equals("DEV_FormServerControlling")) {
 
+                            sshClient.permitsFile(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(),namePermits,itemSelectedInterests,credentials_devServer.SERVIDOR_DEV.getPatch());
 
-                try {
-                    if (nameServer.equals("DEV_FormServerControlling")) {
+                        } else if(nameServer.equals("QAT_UATFormServerControllingDataBase")) {
+                            sshClient.permitsFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(),namePermits,itemSelectedInterests,credentialsQatServer.SERVIDOR_QAT.getPatch());
 
-                        sshClient.permitsFile(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(),namePermits,chainOfPermits);
+                        }
+                        fillList();
+                        Intent intent = new Intent(Files_Admin.this, Files_Admin.class);
+                        startActivity(intent);
 
-                    } else if(nameServer.equals("QAT_UATFormServerControllingDataBase")) {
-                        sshClient.permitsFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(),namePermits,chainOfPermits);
-
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                }else{
+                    Toast.makeText(Files_Admin.this, "You have to select a file of the list or\n" +
+                            "you have to enter a name of the new file", Toast.LENGTH_SHORT).show();
                 }
+
+
             }
         });
             }
 
-    public void fillExpandibleList() throws Exception {
-        final List<FileInfo> files;
+
+    private void fillList(){
+        try{
+            interestsList = new ArrayList<Map<String,String>>();
         SshClient sshClient = new SshClient();
-        final FilePermitsName filePermitsName2 = new FilePermitsName();
         if (nameServer.equals("DEV_FormServerControlling")) {
 
             files = (ArrayList) sshClient.listFiles_Files(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(), credentials_devServer.SERVIDOR_DEV.getPatch());
         } else {
             files = (ArrayList) sshClient.listFiles_Files(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(), credentialsQatServer.SERVIDOR_QAT.getPatch());
         }
+        if(files.size()==0){
+            if (nameServer.equals("DEV_FormServerControlling")) {
 
-       int i=0;
+                files =  sshClient.listFiles_Files(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(), credentials_devServer.SERVIDOR_DEV.getPatch());
 
-
-        final ArrayAdapter<FileInfo> simpleAdpterForListView = new ArrayAdapter<FileInfo>(Files_Admin.this, android.R.layout.simple_list_item_1,files);
-        ListView lv = (ListView) findViewById(R.id.listTemp);
-        lv.setAdapter(simpleAdpterForListView);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                FileInfo f=  files.get(position);
-               chainOfPermits=f.getChainOfPermits();
-               userUsed=f.getUserUsed();
-               nameOfFile=f.getNameOfFile();
-                Toast.makeText(Files_Admin.this,"Seleccionado a "+nameOfFile+"con los permisos: "+chainOfPermits+
-                        "\n Con el usuario: "+userUsed,Toast.LENGTH_LONG).show();
-
+            } else {
+                files =  sshClient.listFiles_Files(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(), credentialsQatServer.SERVIDOR_QAT.getPatch());
             }
-        });
-    }
-    private void fillList() throws Exception{
-        final List<FileInfo> files;
-        SshClient sshClient = new SshClient();
-        final FilePermitsName filePermitsName2 = new FilePermitsName();
-        if (nameServer.equals("DEV_FormServerControlling")) {
-
-            files = (ArrayList) sshClient.listFiles_Files(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(), credentials_devServer.SERVIDOR_DEV.getPatch());
-        } else {
-            files = (ArrayList) sshClient.listFiles_Files(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(), credentialsQatServer.SERVIDOR_QAT.getPatch());
         }
         for(int i =0; i<files.size(); i++){
             interestsList.add(createInterest("interest", files.get(i).getChainOfPermits()+" "
@@ -246,6 +280,9 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
         ListView lv = (ListView) findViewById(R.id.listTemp);
 
         lv.setAdapter(simpleAdpterForListView);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
     }
     private HashMap<String, String> createInterest(String key, String name) { HashMap<String, String> interest = new HashMap<String, String>();
         interest.put(key, name);

@@ -8,5 +8,15 @@
     <string name="memory">memory</string>
     <string name="title">title</string>
     <string name="List">List :</string>
-
+    <string name="FilesChooserFTP">FTP</string>
+    <string name="lbl_FilesChooserFTP">Go to FTP Protocoll</string>
+    <string name="FilesChooserManagement">Management</string>
+    <string name="lbl_FilesChooserManagement">Go to Files Management</string>
+    <string name="btn_GoExplorerPath">UploadFile</string>
+    <string name="btn_Search">Search</string>
+    <string name="btn_Done">Upload</string>
+    <string name="txt_PathFile">Path</string>
+    <string name="btn_sawTheServer">Download File</string>
+    <string name="txt_SelectAFile">Seleccione el acrivo</string>
+    <string name="btn_GoBackMainActivity">To MainActivity</string>
 </resources>

@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -35,7 +37,13 @@
         <activity android:name=".Update" />
         <activity android:name=".memory.Memory_Manager" />
         <activity android:name=".Technical" />
-        <activity android:name=".Support"></activity>
+        <activity android:name=".Support" />
+        <activity android:name=".ftp.MainfilesftpActivity" />
+        <activity android:name=".ftp.ExplorerActivity" />
+        <activity android:name=".ftp.ListviewActivity" />
+        <activity android:name=".FilesfunctionalitychooserActivity" />
+        <activity android:name=".ftp.SearchinserverActivity"></activity>
+
     </application>
 
 </manifest>

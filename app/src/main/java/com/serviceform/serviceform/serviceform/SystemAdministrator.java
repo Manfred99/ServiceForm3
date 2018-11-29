@@ -50,7 +50,7 @@ public class SystemAdministrator extends Activity {
                 @Override
                  public void onClick(View v) {
                    //vincula la actividad main con la home screen
-                    Intent intent = new Intent(SystemAdministrator.this, Files_Admin.class);
+                    Intent intent = new Intent(SystemAdministrator.this, FilesfunctionalitychooserActivity.class);
 
                     //pasamos el nombre de usuario y la actividad
                     Bundle bundle = new Bundle();

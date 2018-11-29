@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context=".FilesfunctionalitychooserActivity">
+
+
+    <TextView
+        android:id="@+id/lbl_FilesChooserFTP"
+        android:layout_width="147dp"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="@string/lbl_FilesChooserFTP" />
+
+    <TextView
+        android:id="@+id/lbl_FilesChooserManagement"
+        android:layout_width="147dp"
+        android:layout_height="42dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="136dp"
+        android:text="@string/lbl_FilesChooserManagement" />
+
+    <Button
+        android:id="@+id/btn_FilesChooserFTP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="68dp"
+        android:text="@string/FilesChooserFTP" />
+
+    <Button
+        android:id="@+id/btn_FilesChooserManagement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="206dp"
+        android:text="@string/FilesChooserManagement" />
+
+
+</RelativeLayout>

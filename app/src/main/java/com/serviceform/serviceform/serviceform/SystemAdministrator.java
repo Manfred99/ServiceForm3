@@ -10,6 +10,7 @@ import com.serviceform.serviceform.serviceform.files.Files_Admin;
 import com.serviceform.serviceform.serviceform.files.Files_Manager;
 import com.serviceform.serviceform.serviceform.memory.Memory_Admin;
 import com.serviceform.serviceform.serviceform.memory.Memory_Manager;
+import com.serviceform.serviceform.serviceform.process.Process_Admin;
 import com.serviceform.serviceform.serviceform.process.Process_Manager;
 import com.serviceform.serviceform.serviceform.state.State_Admin;
 import com.serviceform.serviceform.serviceform.state.State_Manager;
@@ -68,7 +69,7 @@ public class SystemAdministrator extends Activity {
             @Override
             public void onClick(View v) {
                 //vincula la actividad main con la home screen
-                Intent intent = new Intent(SystemAdministrator.this, ViewProcess.class);
+                Intent intent = new Intent(SystemAdministrator.this, Process_Admin.class);
 
                 //pasamos el nombre de usuario y la actividad
                 Bundle bundle = new Bundle();

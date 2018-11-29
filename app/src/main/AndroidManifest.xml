@@ -27,10 +27,15 @@
         <activity android:name=".files.Files_Manager" />
         <activity android:name=".ListUser" />
         <activity android:name=".memory.Memory_Admin" />
-        <activity android:name=".process.Process_Admin" />
         <activity android:name=".process.Process_Manager" />
+        <activity android:name=".process.ViewProcess" />
+        <activity android:name=".process.Process_Admin" />
+        <activity android:name=".process.PropertiesProcess" />
+        <activity android:name=".process.InformationOfProcessSelected" />
         <activity android:name=".state.State_Admin" />
         <activity android:name=".state.State_Manager" />
+        <activity android:name=".state.SelectState"></activity>
+        <activity android:name=".state.ViewState" />
         <activity android:name=".Tickets" />
         <activity android:name=".traffic.Traffic_Admin" />
         <activity android:name=".traffic.Traffic_Manager" />

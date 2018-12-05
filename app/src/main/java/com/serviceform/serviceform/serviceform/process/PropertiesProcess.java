@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.serviceform.serviceform.serviceform.R;
+import com.serviceform.serviceform.serviceform.Tracking.TrackingInsert;
+import com.serviceform.serviceform.serviceform.Tracking.TrackingVariables;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,6 +96,11 @@ public class PropertiesProcess extends Activity {
                         return null;
                     }
                 }.execute(1);
+                TrackingInsert tci = new TrackingInsert();
+                TrackingVariables trace = new TrackingVariables();
+                trace.serverUsed = "Development Server";
+                trace.userUsed = "scdv4001";//Cambia cuando llega a FTP
+                tci.createTraceHoursStuff(trace.serverUsed,trace.userUsed,"Kill a Process");
             }
         });
 
@@ -117,6 +124,11 @@ public class PropertiesProcess extends Activity {
                         return null;
                     }
                 }.execute(1);
+                TrackingInsert tci = new TrackingInsert();
+                TrackingVariables trace = new TrackingVariables();
+                trace.serverUsed = "Development Server";
+                trace.userUsed = "scdv4001";//Cambia cuando llega a FTP
+                tci.createTraceHoursStuff(trace.serverUsed,trace.userUsed,"Stop a Process");
             }
         });
 
@@ -140,6 +152,11 @@ public class PropertiesProcess extends Activity {
                         return null;
                     }
                 }.execute(1);
+                TrackingInsert tci = new TrackingInsert();
+                TrackingVariables trace = new TrackingVariables();
+                trace.serverUsed = "Development Server";
+                trace.userUsed = "scdv4001";//Cambia cuando llega a FTP
+                tci.createTraceHoursStuff(trace.serverUsed,trace.userUsed,"Create a child  Process");
             }
         });
     }

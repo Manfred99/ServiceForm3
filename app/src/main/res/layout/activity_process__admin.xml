@@ -5,67 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".process.Process_Admin">
 
-    <TextView
-        android:id="@+id/lbl_nameserver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="52dp"
-        android:text="Nombre del servidor"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-    <TextView
-        android:id="@+id/lbl_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/txt_user"
-        android:layout_alignLeft="@+id/txt_user"
-        android:layout_centerVertical="true"
-        android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        tools:text="Password" />
-
-    <EditText
-        android:id="@+id/txt_user2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="-166dp"
-        android:layout_marginTop="86dp"
-        android:layout_toEndOf="@+id/lbl_nameserver"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:layout_marginLeft="-166dp"
-        android:layout_toRightOf="@+id/lbl_nameserver" />
-
-    <EditText
-        android:id="@+id/tfd_ip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="174dp"
-        android:ems="10"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/lbl_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginBottom="189dp"
-        android:ems="10"
-        android:inputType="textPassword" />
-
     <Button
         android:id="@+id/btn_process"
         android:layout_width="wrap_content"
@@ -77,19 +16,6 @@
         android:layout_marginLeft="112dp"
         android:layout_marginBottom="84dp"
         android:text="Lista de procesos" />
-
-    <TextView
-        android:id="@+id/lbl_ipserver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/lbl_nameserver"
-        android:layout_alignLeft="@+id/lbl_nameserver"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginTop="134dp"
-        android:text="IP del servidor"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <TextView
         android:id="@+id/textView"
@@ -104,21 +30,5 @@
         android:textStyle="italic"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="43dp" />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="236dp"
-        android:layout_height="59dp"
-
-
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/button11"
-        android:ems="10"
-        android:gravity="center_horizontal"
-        android:inputType="textPersonName"
-        android:singleLine="true"
-        android:textColor="#2980b9"
-        android:layout_alignParentRight="true"
-        tools:ignore="UnknownId" />
 
 </RelativeLayout>

@@ -8,6 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.serviceform.serviceform.serviceform.Tracking.ConnectionToServerDBA;
+import com.serviceform.serviceform.serviceform.Tracking.TrackingInsert;
+import com.serviceform.serviceform.serviceform.Tracking.TrackingVariables;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +20,7 @@ import java.sql.Statement;
 public class MainActivity extends Activity {
      public static int id_Role;
      Credentials_DBA credentials_dba;
+    static Connection connection=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,15 +48,18 @@ public class MainActivity extends Activity {
                 String passwordString = password.getText().toString();
 
                 ConnectionClass connectionClass= new ConnectionClass();
-                Connection connection=null;
 
-                try {
-                    connection = connectionClass.createConnection(credentials_dba.SERVER_DBA.getUser(), credentials_dba.SERVER_DBA.getPassword(), credentials_dba.SERVER_DBA.getDatabase(), credentials_dba.SERVER_DBA.getServer());
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+
+                    try{
+                        connection = connectionClass.createConnection(credentials_dba.SERVER_DBA.getUser(), credentials_dba.SERVER_DBA.getPassword(), credentials_dba.SERVER_DBA.getDatabase(), credentials_dba.SERVER_DBA.getServer());
+                    }catch (Exception ex){
+
+                    }
+
+                    //ConnectionToServerDBA connectionToServerDBA = new ConnectionToServerDBA();
+
+                    //connection = (Connection) connectionToServerDBA.stablishConectionDataBase();
+
 
 
                 if (connection==null){
@@ -60,7 +68,7 @@ public class MainActivity extends Activity {
                             Toast.LENGTH_SHORT).show();
                 }else{
 
-                                       String query= "SELECT * FROM [IF4100_B63817_2018].[dbo].[Users] WHERE Username='"+usernameString
+                                       String query= "SELECT * FROM ["+credentials_dba.SERVER_DBA.getDatabase()+"].[dbo].[UserApp] WHERE Username='"+usernameString
                             +"' AND Password='"+passwordString+"'";
 
                     try{
@@ -78,7 +86,7 @@ public class MainActivity extends Activity {
 
                             //usamos el rol del usuario para darle permisos
 
-                            String queryRol= "SELECT [Role] FROM [IF4100_B63817_2018].[dbo].[Users] WHERE Username='"+usernameString
+                            String queryRol= "SELECT [Role] FROM ["+credentials_dba.SERVER_DBA.getDatabase()+"].[dbo].[UserApp] WHERE Username='"+usernameString
                                     +"' AND Password='"+passwordString+"'";
 
                             //prepara la conección para luego consultarla
@@ -89,7 +97,23 @@ public class MainActivity extends Activity {
                             resultSetRol.next();
                             id_Role=((Number)resultSetRol.getObject(1)).intValue();
 
+                            String queryEmail= "SELECT [Email] FROM ["+credentials_dba.SERVER_DBA.getDatabase()+"].[dbo].[UserApp] WHERE Username='"+usernameString
+                                    +"' AND Password='"+passwordString+"'";
 
+                            //prepara la conección para luego consultarla
+                            Statement statementEmail= connection.createStatement();
+                            //ejecuta la consulta y obtiene resultado
+                            ResultSet resultSetEmail = statementEmail.executeQuery(queryEmail);
+
+                            resultSetEmail.next();
+                            String email=(resultSetEmail.getObject(1)).toString();
+                            TrackingVariables trace = new TrackingVariables();
+                            TrackingInsert tci = new TrackingInsert();
+                            trace.userEmail = email;
+                            trace.timeStart = tci.getActualTime();
+                            trace.serverUsed = "Development Server";
+                            trace.userUsed = "scdv4001";//Cambia cuando llega a FTP
+                            //tci.createTraceHoursStuff(trace.serverUsed,trace.userUsed,"List Process");
 
                            if(id_Role==1 || id_Role==2) {
                                //vincula la actividad main con la home screen

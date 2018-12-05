@@ -38,4 +38,5 @@ dependencies {
     implementation files('libs/jsch-0.1.54.jar')
     implementation files('libs/ganymed-ssh2-build210.jar')
     implementation files('libs/commons-net-3.6.jar')
+    implementation files('libs/sqljdbc4-2.0.jar')
 }

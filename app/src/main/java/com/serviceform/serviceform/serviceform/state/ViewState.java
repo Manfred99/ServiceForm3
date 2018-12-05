@@ -8,7 +8,10 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.serviceform.serviceform.serviceform.Credentials_DBAANDROID;
 import com.serviceform.serviceform.serviceform.R;
+import com.serviceform.serviceform.serviceform.Tracking.TrackingInsert;
+import com.serviceform.serviceform.serviceform.Tracking.TrackingVariables;
 import com.serviceform.serviceform.serviceform.process.ConnectionClass;
 import com.serviceform.serviceform.serviceform.process.ViewProcess;
 
@@ -23,7 +26,7 @@ import java.util.Map;
 public class ViewState extends Activity {
 
     public ViewProcess view = new ViewProcess();
-
+    Credentials_DBAANDROID bdAndroid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +59,7 @@ public class ViewState extends Activity {
                 }else {
                     SelectState sele = new SelectState();
                     String values = sele.numberofState;
-                    String queryRol = "Delete [IF4100_B77436_2018].[dbo].[ServerState] WHERE NumberofState=" + values;
+                    String queryRol = "Delete ["+bdAndroid.SERVER_DBAAndroid.getDatabase()+"].[dbo].[ServerStates] WHERE NumberofState=" + values;
                     String row = "";
                     try {
                         //prepara la conección para luego consultarla
@@ -65,6 +68,11 @@ public class ViewState extends Activity {
                         ResultSet resultSetRol = statementRol.executeQuery(queryRol);
 
                         resultSetRol.next();
+                        TrackingInsert tci = new TrackingInsert();
+                        TrackingVariables trace = new TrackingVariables();
+                        trace.serverUsed = "Development Server";
+                        trace.userUsed = "scdv4001";//Cambia cuando llega a FTP
+                        tci.createTraceHoursStuff(trace.serverUsed,trace.userUsed,"Delete a State from DB");
                         //row = ((String) resultSetRol.getObject()
                         //id_Role=((Number)resultSetRol.getObject(1)).intValue();
                     } catch (Exception ex) {
@@ -91,7 +99,7 @@ public class ViewState extends Activity {
             Toast.makeText(ViewState.this, "Error de conección con BD",
                     Toast.LENGTH_SHORT).show();
         }else {
-            String queryRol= "SELECT * FROM [IF4100_B77436_2018].[dbo].[ServerState] WHERE NumberofState="+values;
+            String queryRol= "SELECT * FROM ["+bdAndroid.SERVER_DBAAndroid.getDatabase()+"].[dbo].[ServerStates] WHERE NumberofState="+values;
             Object row="";
             try{
                 //prepara la conección para luego consultarla

@@ -17,6 +17,8 @@ import com.serviceform.serviceform.serviceform.Credentials_DEVServer;
 import com.serviceform.serviceform.serviceform.Credentials_QATServer;
 import com.serviceform.serviceform.serviceform.R;
 import com.serviceform.serviceform.serviceform.SshClient;
+import com.serviceform.serviceform.serviceform.Tracking.TrackingInsert;
+import com.serviceform.serviceform.serviceform.Tracking.TrackingVariables;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -132,9 +134,15 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
                             sshClient.deleteFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(),itemSelectedInterests,  credentialsQatServer.SERVIDOR_QAT.getPatch());
 
                         }
+                        TrackingInsert tci = new TrackingInsert();
+                        TrackingVariables trace = new TrackingVariables();
+                        trace.serverUsed = "Development Server";
+                        trace.userUsed = "scdv4001";//Cambia cuando llega a FTP
+                        tci.createTraceHoursStuff(trace.serverUsed,trace.userUsed,"Delete a File");
                         fillList();
                         Intent intent = new Intent(Files_Admin.this, Files_Admin.class);
                         startActivity(intent);
+
                     }else{
                         Toast.makeText(Files_Admin.this, "You have to select a file of the list", Toast.LENGTH_SHORT).show();
                     }
@@ -175,7 +183,13 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
                         sshClient.createFile(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(), editName, credentialsQatServer.SERVIDOR_QAT.getPatch());
 
                     }
+
                     fillList();
+                    TrackingInsert tci = new TrackingInsert();
+                    TrackingVariables trace = new TrackingVariables();
+                    trace.serverUsed = "Development Server";
+                    trace.userUsed = "scdv4001";//Cambia cuando llega a FTP
+                    tci.createTraceHoursStuff(trace.serverUsed,trace.userUsed,"Create a File");
                     Intent intent = new Intent(Files_Admin.this, Files_Admin.class);
                     startActivity(intent);
                 }else{
@@ -201,6 +215,11 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
 
                         }
                         fillList();
+                        TrackingInsert tci = new TrackingInsert();
+                        TrackingVariables trace = new TrackingVariables();
+                        trace.serverUsed = "Development Server";
+                        trace.userUsed = "scdv4001";//Cambia cuando llega a FTP
+                        tci.createTraceHoursStuff(trace.serverUsed,trace.userUsed,"Modify a File");
                         Intent intent = new Intent(Files_Admin.this, Files_Admin.class);
                         startActivity(intent);
                     }else{
@@ -233,6 +252,11 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
 
                         }
                         fillList();
+                        TrackingInsert tci = new TrackingInsert();
+                        TrackingVariables trace = new TrackingVariables();
+                        trace.serverUsed = "Development Server";
+                        trace.userUsed = "scdv4001";//Cambia cuando llega a FTP
+                        tci.createTraceHoursStuff(trace.serverUsed,trace.userUsed,"Set permits to  File");
                         Intent intent = new Intent(Files_Admin.this, Files_Admin.class);
                         startActivity(intent);
 
@@ -260,7 +284,7 @@ public class Files_Admin extends Activity implements AdapterView.OnItemSelectedL
         } else {
             files = (ArrayList) sshClient.listFiles_Files(credentialsQatServer.SERVIDOR_QAT.getUserName(), credentialsQatServer.SERVIDOR_QAT.getPassword(), credentialsQatServer.SERVIDOR_QAT.getHost(), credentialsQatServer.SERVIDOR_QAT.getPatch());
         }
-        if(files.size()==0){
+        while(files.size()==0){
             if (nameServer.equals("DEV_FormServerControlling")) {
 
                 files =  sshClient.listFiles_Files(credentials_devServer.SERVIDOR_DEV.getUserName(), credentials_devServer.SERVIDOR_DEV.getPassword(), credentials_devServer.SERVIDOR_DEV.getHost(), credentials_devServer.SERVIDOR_DEV.getPatch());

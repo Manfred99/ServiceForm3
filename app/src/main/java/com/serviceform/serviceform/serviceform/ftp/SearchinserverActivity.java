@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import com.serviceform.serviceform.serviceform.R;
+import com.serviceform.serviceform.serviceform.Tracking.TrackingInsert;
+import com.serviceform.serviceform.serviceform.Tracking.TrackingVariables;
 
 public class SearchinserverActivity extends Activity {
     /**
@@ -84,6 +86,12 @@ public class SearchinserverActivity extends Activity {
                     }
                 }.execute(1);
                 Toast.makeText(SearchinserverActivity.this, "Has seleccionado: "+itemSelectedInterests, Toast.LENGTH_SHORT).show();
+                TrackingInsert tci = new TrackingInsert();
+                TrackingVariables trace = new TrackingVariables();
+                trace.serverUsed = "Development Server";
+                trace.userUsed = "transferFTP";//Cambia cuando llega a FTP
+                tci.createTraceHoursStuff(trace.serverUsed,trace.userUsed,"Download File");
+
             }
         });
         listOfFiles1 = SSHActivities.serverOutput;

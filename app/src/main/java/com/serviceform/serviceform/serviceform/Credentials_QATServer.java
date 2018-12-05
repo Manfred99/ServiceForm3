@@ -2,7 +2,7 @@ package com.serviceform.serviceform.serviceform;
 
 public enum Credentials_QATServer {
 
-    SERVIDOR_QAT("scdv4001","SCDV4001DEV","192.168.1.13","/home/scdv4001/Documents");
+    SERVIDOR_QAT("scdv4001","SCDV4001DEV","192.168.43.239","/home/scdv4001/Documents");
 
     private final String userName;
     private final String  password;

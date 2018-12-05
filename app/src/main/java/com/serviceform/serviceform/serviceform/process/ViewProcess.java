@@ -10,7 +10,10 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.serviceform.serviceform.serviceform.Credentials_DBAANDROID;
 import com.serviceform.serviceform.serviceform.R;
+import com.serviceform.serviceform.serviceform.Tracking.TrackingInsert;
+import com.serviceform.serviceform.serviceform.Tracking.TrackingVariables;
 import com.serviceform.serviceform.serviceform.state.SelectState;
 
 import java.sql.Connection;
@@ -26,7 +29,7 @@ public class ViewProcess extends Activity {
 
     public static ArrayList<String> procesos = null;
     public static String itemSelectedInterests = "", list_of_states="";
-
+    Credentials_DBAANDROID bdAndroid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,11 +73,17 @@ public class ViewProcess extends Activity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(procesos.size()>0)
+                if(procesos.size()>0) {
                     insertStates(procesos);
-                else
+                    TrackingInsert tci = new TrackingInsert();
+                    TrackingVariables trace = new TrackingVariables();
+                    trace.serverUsed = "Development Server";
+                    trace.userUsed = "scdv4001";//Cambia cuando llega a FTP
+                    tci.createTraceHoursStuff(trace.serverUsed,trace.userUsed,"Save List Process in DB");
+                }else {
                     Toast.makeText(ViewProcess.this, "No existen procesos", Toast.LENGTH_LONG).show();
-            }
+                }
+                }
         });
 
         refresh.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +94,11 @@ public class ViewProcess extends Activity {
                 lv.setAdapter(null);
                 Process_Admin processA = new Process_Admin();
                 processA.loadProcessToServer();
-
+                TrackingInsert tci = new TrackingInsert();
+                TrackingVariables trace = new TrackingVariables();
+                trace.serverUsed = "Development Server";
+                trace.userUsed = "scdv4001";//Cambia cuando llega a FTP
+                tci.createTraceHoursStuff(trace.serverUsed,trace.userUsed,"Refresh List Process");
                 Intent intent=new Intent( ViewProcess.this, ViewProcess.class);
 
                 Bundle bundle=new Bundle();
@@ -126,7 +139,7 @@ public class ViewProcess extends Activity {
                             Toast.LENGTH_SHORT).show();
                 }else{
 
-                    String queryRol= "SELECT [NumberofState] FROM [IF4100_B77436_2018].[dbo].[ServerState] ORDER BY NumberofState desc";
+                    String queryRol= "SELECT [NumberofState] FROM ["+bdAndroid.SERVER_DBAAndroid.getDatabase()+"].[dbo].[ServerStates] ORDER BY NumberofState desc";
                     int numberState=0;
                     try{
                         //prepara la conección para luego consultarla
@@ -142,7 +155,7 @@ public class ViewProcess extends Activity {
                     }
                     list_of_states= "";
                     for(int i = numberState;i>0;i--){
-                        String queryRol1= "SELECT [NumberofState] FROM [IF4100_B77436_2018].[dbo].[ServerState] WHERE NumberofState="+i;
+                        String queryRol1= "SELECT [NumberofState] FROM ["+bdAndroid.SERVER_DBAAndroid.getDatabase()+"].[dbo].[ServerStates] WHERE NumberofState="+i;
                         try{
                             //prepara la conección para luego consultarla
                             Statement statementRol= connection.createStatement();
@@ -157,6 +170,11 @@ public class ViewProcess extends Activity {
                         }
                     }
                 }
+                TrackingInsert tci = new TrackingInsert();
+                TrackingVariables trace = new TrackingVariables();
+                trace.serverUsed = "Development Server";
+                trace.userUsed = "scdv4001";//Cambia cuando llega a FTP
+                tci.createTraceHoursStuff(trace.serverUsed,trace.userUsed,"Load List Process");
                 Intent intent=new Intent( ViewProcess.this, SelectState.class);
 
                 Bundle bundle=new Bundle();
@@ -219,7 +237,7 @@ public class ViewProcess extends Activity {
         ConnectionClass connectionClass= new ConnectionClass();
         Connection connection=null;
         try {
-            connection = connectionClass.createConnection("estudiantesrp", "estudiantesrp", "IF4100_B77436_2018", "163.178.173.148");
+            connection = connectionClass.createConnection(bdAndroid.SERVER_DBAAndroid.getUser(), bdAndroid.SERVER_DBAAndroid.getPassword(), bdAndroid.SERVER_DBAAndroid.getDatabase(), bdAndroid.SERVER_DBAAndroid.getServer());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -250,7 +268,7 @@ public class ViewProcess extends Activity {
                     Toast.LENGTH_SHORT).show();
         }else{
             int i=0;
-            String queryRol= "SELECT [NumberofState] FROM [IF4100_B77436_2018].[dbo].[ServerState] ORDER BY NumberofState DESC";
+            String queryRol= "SELECT [NumberofState] FROM ["+bdAndroid.SERVER_DBAAndroid.getDatabase()+"].[dbo].[ServerStates] ORDER BY NumberofState DESC";
             int numberState=0;
             try{
                 //prepara la conección para luego consultarla
@@ -275,7 +293,7 @@ public class ViewProcess extends Activity {
                 String priority = properties.getId(register, 3);
                 String time = properties.getId(register, 7);
 
-                String query= "INSERT INTO [IF4100_B77436_2018].[dbo].[ServerState] (ServerName, DataState, PID,NameP, RealMemory, VirtualMemory, CPU, PriorityP, TimeExecuting, NumberofState) "+
+                String query= "INSERT INTO ["+bdAndroid.SERVER_DBAAndroid.getDatabase()+"].[dbo].[ServerStates] (ServerName, DateState, PID,NameP, RealMemory, VirtualMemory, CPU, PriorityP, TimeExecuting, NumberofState) "+
                         "VALUES ('"+list.userName+"', getDate(), '"+pid+"', '"+name+"', '"+realMemory+"','"+virtualMemory+"','"+cpu+"', '"+priority+"','"+time+"', "+numberState+")";
                 try{
                     //prepara la conección para luego insertar registro

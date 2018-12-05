@@ -17,6 +17,9 @@ import org.apache.commons.net.ftp.FTPReply;
 import java.io.File;
 import java.io.FileInputStream;
 import com.serviceform.serviceform.serviceform.R;
+import com.serviceform.serviceform.serviceform.Tracking.TrackingInsert;
+import com.serviceform.serviceform.serviceform.Tracking.TrackingVariables;
+
 public class ExplorerActivity extends Activity {
     /**
      Con esta clase paso archivos del celular al server
@@ -80,6 +83,11 @@ public class ExplorerActivity extends Activity {
                      //answer =  ms.getAnswerServer();
                      //System.out.println("#############"+answer);
                     Toast.makeText(ExplorerActivity.this, "Exito", Toast.LENGTH_SHORT).show();
+                    TrackingInsert tci = new TrackingInsert();
+                    TrackingVariables trace = new TrackingVariables();
+                    trace.serverUsed = "Development Server";
+                    trace.userUsed = "transferFTP";//Cambia cuando llega a FTP
+                    tci.createTraceHoursStuff(trace.serverUsed,trace.userUsed,"Upload File");
 
                 }
             });

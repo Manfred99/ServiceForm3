@@ -5,6 +5,9 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.UserInfo;
+import com.serviceform.serviceform.serviceform.Credentials_DBA;
+import com.serviceform.serviceform.serviceform.Credentials_DEVServer;
+import com.serviceform.serviceform.serviceform.ftp.ServerCredentials;
 
 import java.io.InputStream;
 
@@ -12,7 +15,7 @@ public class List_Process {
 
     public static String listOfProcess = "";
     public static String userName="", hostServer="";
-
+    ServerCredentials sc = new ServerCredentials();
     public void lista(){
         try{
             JSch jsch=new JSch();
@@ -22,7 +25,7 @@ public class List_Process {
 //        host=arg[0];
 //      }
 //      else{
-            host="scdv4001@192.168.1.13"; // enter username and ipaddress for machine you need to connect
+            host=sc.domainDevelopmentServer; // enter username and ipaddress for machine you need to connect
 //      }
             String user=host.substring(0, host.indexOf('@'));
             host=host.substring(host.indexOf('@')+1);
